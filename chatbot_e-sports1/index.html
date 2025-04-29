@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <title>Chatbot FURIA Esports</title>
   <style>
-    /* Mesmos estilos */
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #0f0f0f;
+      background-color: #000;
       margin: 0;
       padding: 20px;
       color: white;
@@ -20,8 +19,7 @@
       margin-bottom: 20px;
     }
     #header img {
-      width: 120px;
-      margin-bottom: 10px;
+      width: 300px;
     }
     #chatbox {
       background-color: #1a1a1a;
@@ -73,12 +71,67 @@
     button:hover {
       background-color: #246b45;
     }
+    h1{
+        font-size: 50px;
+        margin-top: 0px;
+      }
+
+    /* Responsividade */
+    @media (max-width: 1000px) {
+      #header img {
+        width: 450px;
+      }
+      #chatbox {
+        height: 600px; /* maior no mobile */
+        padding: 12px;
+      }
+      #userInput {
+        width: 65%;
+        font-size: 1.1rem;
+        padding: 12px;
+      }
+      button {
+        font-size: 1.1rem;
+        padding: 12px 20px;
+      }
+      .message {
+        font-size: 1.05rem;
+        padding: 10px 14px;
+      }
+      h1{
+        font-size: 70px;
+        margin-top: 0px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      #header img {
+        width: 250px;
+      }
+      #chatbox {
+        height: 480px;
+        padding: 10px;
+      }
+      #userInput {
+        width: 60%;
+        font-size: 1rem;
+        padding: 11px;
+      }
+      button {
+        font-size: 1rem;
+        padding: 11px 18px;
+      }
+      .message {
+        font-size: 1rem;
+        padding: 9px 12px;
+      }
+    }
   </style>
 </head>
 <body>
 
 <div id="header">
-  <img src="https://upload.wikimedia.org/wikipedia/pt/4/4e/FURIA_Esports_logo.png" alt="FURIA Logo">
+  <img src="furia.jpg" alt="FURIA Logo">
   <h1>Chatbot da FURIA</h1>
 </div>
 
@@ -90,6 +143,12 @@
 </div>
 
 <script src="chatbot.js"></script>
+
+<script>
+document.getElementById("userInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") sendMessage();
+});
+</script>
 
 </body>
 </html>
