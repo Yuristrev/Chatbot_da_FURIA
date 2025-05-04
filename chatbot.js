@@ -28,11 +28,12 @@ function getBotResponse(input) {
   if (input.includes("elenco") || input.includes("jogadores")) {
     return `O elenco atual de CS:GO da FURIA (2025) é:
     <ul>
-      <li>KSCERATO</li>
-      <li>yuurih</li>
-      <li>chelo</li>
-      <li>arT</li>
-      <li>drop</li>
+      <li>FalleN (Gabriel Sguario)</li>
+      <li>yuurih (Yuri Santos)</li>
+      <li>KSCERATO (Kaike Cerato)</li>
+      <li>molodoy (Danil Golubenko)</li>
+      <li>YEKINDAR (Mareks Gaļinskis) *substituto</li>
+      <li>chelo (Marcelo Cespedes) *inativo</li>
     </ul>`;
   } else if (input.includes("próximo jogo") || input.includes("quando joga")) {
     return "O próximo jogo da FURIA será no dia 10 de maio contra a Team Liquid às 18h (horário de Brasília).";
