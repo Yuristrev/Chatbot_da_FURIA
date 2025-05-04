@@ -48,7 +48,7 @@ function getBotResponse(input) {
       <li>Campeã da BGS 2023 (masculino e feminino)</li>
     </ul>`;
   } else if (input.includes("ranking") || input.includes("posição")) {
-    return "Atualmente, a FURIA ocupa a 9ª posição no ranking da HLTV e a 7ª posição no ranking da Valve.";
+    return "Atualmente, a FURIA ocupa a 9ª posição no ranking mundial atualmente";
   } else if (input.includes("história") || input.includes("sobre a furia")) {
     return "A FURIA Esports é uma organização brasileira fundada em 2017. É uma das equipes mais tradicionais do cenário competitivo de CS:GO.";
   } else if (input.includes("jogo ao vivo")) {
