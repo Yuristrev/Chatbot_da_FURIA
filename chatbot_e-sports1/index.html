@@ -71,60 +71,43 @@
     button:hover {
       background-color: #246b45;
     }
-    h1{
-        font-size: 50px;
-        margin-top: 0px;
-      }
-
-    /* Responsividade */
-    @media (max-width: 1000px) {
-      #header img {
-        width: 450px;
-      }
-      #chatbox {
-        height: 600px; /* maior no mobile */
-        padding: 12px;
-      }
-      #userInput {
-        width: 65%;
-        font-size: 1.1rem;
-        padding: 12px;
-      }
-      button {
-        font-size: 1.1rem;
-        padding: 12px 20px;
-      }
-      .message {
-        font-size: 1.05rem;
-        padding: 10px 14px;
-      }
-      h1{
-        font-size: 70px;
-        margin-top: 0px;
-      }
+    h1 {
+      font-size: 50px;
+      margin-top: 0px;
     }
-
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .option-button {
+      background-color: #222;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+    .option-button:hover {
+      background-color: #444;
+    }
+    @media (max-width: 1000px) {
+      #header img { width: 450px; }
+      #chatbox { height: 600px; padding: 12px; }
+      #userInput { width: 65%; font-size: 1.1rem; padding: 12px; }
+      button { font-size: 1.1rem; padding: 12px 20px; }
+      .message { font-size: 1.05rem; padding: 10px 14px; }
+      h1 { font-size: 70px; margin-top: 0px; }
+    }
     @media (max-width: 600px) {
-      #header img {
-        width: 250px;
-      }
-      #chatbox {
-        height: 480px;
-        padding: 10px;
-      }
-      #userInput {
-        width: 60%;
-        font-size: 1rem;
-        padding: 11px;
-      }
-      button {
-        font-size: 1rem;
-        padding: 11px 18px;
-      }
-      .message {
-        font-size: 1rem;
-        padding: 9px 12px;
-      }
+      #header img { width: 250px; }
+      #chatbox { height: 480px; padding: 10px; }
+      #userInput { width: 60%; font-size: 1rem; padding: 11px; }
+      button { font-size: 1rem; padding: 11px 18px; }
+      .message { font-size: 1rem; padding: 9px 12px; }
     }
   </style>
 </head>
@@ -145,9 +128,9 @@
 <script src="chatbot.js"></script>
 
 <script>
-document.getElementById("userInput").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") sendMessage();
-});
+  document.getElementById("userInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") sendMessage();
+  });
 </script>
 
 </body>

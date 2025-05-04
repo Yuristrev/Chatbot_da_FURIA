@@ -1,92 +1,70 @@
-function addMessage(message, className) {
-    const chatbox = document.getElementById("chatbox");
-    const msgDiv = document.createElement("div");
-    msgDiv.className = `message ${className}`;
-  
-    if (message.includes("<a ")) {
-      msgDiv.innerHTML = message;
-    } else {
-      msgDiv.innerText = message;
-    }
-  
-    chatbox.appendChild(msgDiv);
-    chatbox.scrollTop = chatbox.scrollHeight;
+const chatbox = document.getElementById("chatbox");
+const userInput = document.getElementById("userInput");
+
+// Função para adicionar mensagens ao chat
+function addMessage(text, sender = "bot") {
+  const message = document.createElement("div");
+  message.classList.add("message");
+  message.classList.add(sender === "user" ? "user-message" : "bot-message");
+  message.innerHTML = text;
+  chatbox.appendChild(message);
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+// Função principal para processar entrada do usuário
+function sendMessage(text = null) {
+  const input = text || userInput.value.trim();
+  if (!input) return;
+
+  addMessage(input, "user");
+  userInput.value = "";
+
+  const response = getBotResponse(input.toLowerCase());
+  addMessage(response);
+}
+
+// Lógica das respostas do bot
+function getBotResponse(input) {
+  if (input.includes("elenco") || input.includes("jogadores")) {
+    return `O elenco atual de CS:GO da FURIA (2025) é:
+    <ul>
+      <li>KSCERATO</li>
+      <li>yuurih</li>
+      <li>chelo</li>
+      <li>arT</li>
+      <li>drop</li>
+    </ul>`;
+  } else if (input.includes("próximo jogo") || input.includes("quando joga")) {
+    return "O próximo jogo da FURIA será no dia 10 de maio contra a Team Liquid às 18h (horário de Brasília).";
+  } else if (input.includes("último jogo") || input.includes("última partida")) {
+    return "O último jogo da FURIA foi em 6 de abril de 2025, com uma vitória por 2 a 0 contra a Apogee Esports.";
+  } else if (input.includes("títulos") || input.includes("conquistas")) {
+    return `A FURIA possui diversos títulos, incluindo:
+    <ul>
+      <li>Campeã da ESL Pro League Season 12: América do Norte (2020)</li>
+      <li>Campeã da DreamHack Masters Spring: América do Norte (2020)</li>
+      <li>Campeã da DreamHack Open Summer: América do Norte (2020)</li>
+      <li>Campeã da BGS 2023 (masculino e feminino)</li>
+    </ul>`;
+  } else if (input.includes("ranking") || input.includes("posição")) {
+    return "Atualmente, a FURIA ocupa a 9ª posição no ranking da HLTV e a 7ª posição no ranking da Valve.";
+  } else if (input.includes("história") || input.includes("sobre a furia")) {
+    return "A FURIA Esports é uma organização brasileira fundada em 2017. É uma das equipes mais tradicionais do cenário competitivo de CS:GO.";
+  } else if (input.includes("jogo ao vivo")) {
+    return `Você pode assistir ao jogo ao vivo neste link: <a href="https://www.twitch.tv/furia" target="_blank">Twitch da FURIA</a>`;
+  } else if (input.includes("loja")) {
+    return `🔥🔥Quer garantir seu manto ou merch da FURIA pra ficar no estilo? Cola aí <a href="https://shop.furia.gg" target="_blank">shop.furia.gg</a>🔥🔥`;
+  } else {
+    return `Eai guerreiro, vi que você tá atrás de informação sobre a equipe de CS da FURIA. Se é isso, veio ao lugar certo. Fala aí, o que você quer saber?
+      <div class="options">
+        <button class="option-button" onclick="sendMessage('elenco')">👨‍💻🧍 Elenco Atual</button>
+        <button class="option-button" onclick="sendMessage('próximo jogo')">🔴⏭️ Próximo Jogo</button>
+        <button class="option-button" onclick="sendMessage('último jogo')">🔴⏮️ Último Jogo</button>
+        <button class="option-button" onclick="sendMessage('títulos')">🏆🆚 Títulos</button>
+        <button class="option-button" onclick="sendMessage('ranking')">📊🥇 Ranking</button>
+        <button class="option-button" onclick="sendMessage('história')">📜🎞️ História da FURIA</button>
+        <button class="option-button" onclick="sendMessage('jogo ao vivo')">🟢🎥 Ver Jogo ao Vivo</button>
+        <button class="option-button" onclick="sendMessage('loja')">💸🖥️ Ir para a Loja</button>
+      </div>`;
   }
-  
-  async function sendMessage() {
-    const input = document.getElementById("userInput");
-    const text = input.value.trim();
-    if (text === "") return;
-  
-    addMessage(text, "user-message");
-    input.value = "";
-  
-    addMessage("Digitando...", "bot-message");
-  
-    const response = await getBotResponse(text);
-  
-    const messages = document.querySelectorAll(".bot-message");
-    messages[messages.length-1].remove();
-  
-    addMessage(response, "bot-message");
-  }
-  
-  async function getBotResponse(input) {
-    input = input.toLowerCase();
-  
-    try {
-      if (["informação", "informações", "sobre a equipe", "dados"].some(k => input.includes(k))) {
-        const res = await fetch("/api/team");
-        const data = await res.json();
-        return `A equipe ${data.team} foi fundada em ${data.founded}, baseada em ${data.location}.`;
-  
-      } else if (["jogadores", "jogador", "elenco"].some(k => input.includes(k))) {
-        const res = await fetch("/api/players");
-        const data = await res.json();
-        return `Jogadores da FURIA:\n${data.join("\n")}`;
-  
-      } else if (["campeonatos", "torneios"].some(k => input.includes(k))) {
-        const res = await fetch("/api/tournaments");
-        const data = await res.json();
-        return `Campeonatos atuais:\n${data.join("\n")}`;
-  
-      } else if (["títulos", "conquistas"].some(k => input.includes(k))) {
-        const res = await fetch("/api/titles");
-        const data = await res.json();
-        return `Títulos da FURIA:\n${data.join("\n")}`;
-  
-      } else if (["próximos jogos", "futuro"].some(k => input.includes(k))) {
-        const res = await fetch("/api/upcoming");
-        const data = await res.json();
-        if (!data.length) return "Nenhuma partida futura encontrada.";
-        return data.map(m => `Vs ${m.opponent} em ${m.date}`).join("\n");
-  
-      } else if (["últimos jogos", "anteriores"].some(k => input.includes(k))) {
-        const res = await fetch("/api/past");
-        const data = await res.json();
-        if (!data.length) return "Nenhuma partida anterior encontrada.";
-        return data.map(m => `${m.result} contra ${m.opponent}`).join("\n");
-  
-      } else if (["ao vivo", "agora"].some(k => input.includes(k))) {
-        const res = await fetch("/api/live");
-        const data = await res.json();
-        return data.length ? `Partida AO VIVO contra ${data[0].opponent}` : "Sem partidas ao vivo no momento.";
-  
-      } else if (["loja", "site oficial", "comprar"].some(k => input.includes(k))) {
-        return `Quer garantir seu manto ou merch da FURIA? <a href="https://www.furia.gg/" target="_blank" style="color: #2e8b57; text-decoration: underline;">Clique aqui e acesse a loja oficial</a>.`;
-  
-      } else {
-        return "Não entendi, guerreiro! Tente perguntar: informações, jogadores, campeonatos, títulos, próximos jogos, últimos jogos, ao vivo ou loja.";
-      }
-  
-    } catch (err) {
-      console.error(err);
-      return "Erro ao consultar servidor.";
-    }
-  }
-  
-  window.onload = () => {
-    addMessage("Eai guerreiro, vi que você tá atrás de informação sobre a equipe FURIA. Se é isso, veio ao lugar certo. Fala aí, o que você quer saber?", "bot-message");
-    addMessage("📋 Opções disponíveis:\n• Informações\n• Jogadores\n• Campeonatos\n• Títulos\n• Próximos jogos\n• Últimos jogos\n• Ao vivo\n• Loja", "bot-message");
-  };
-  
+}
